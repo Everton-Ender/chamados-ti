@@ -1,9 +1,27 @@
-<% if (errors && errors.length) { %>
-  <div class="alert alert-error" role="alert">
-    <%- icon('alert') %>
-    <div>
-      <strong>Verifique os campos abaixo:</strong>
-      <ul><% errors.forEach(function (e) { %><li><%= e %></li><% }) %></ul>
-    </div>
-  </div>
-<% } %>
+
+<%- include('partials/header') %>
+
+<%
+  const codigo = statusCode || 500;
+
+  const titulo = codigo === 403
+    ? 'Acesso negado'
+    : codigo === 404
+      ? 'Página não encontrada'
+      : 'Algo deu errado';
+
+  const mensagem = error?.message ||
+    'Ocorreu um erro inesperado ao processar sua solicitação.';
+%>
+
+<div class="card empty page-empty">
+  <span class="big-code"><%= codigo %></span>
+  <h1><%= titulo %></h1>
+  <p><%= mensagem %></p>
+
+  <a href="/" class="btn btn-primary" id="error-home">
+    <%- icon('back', 16) %> Voltar ao dashboard
+  </a>
+</div>
+
+<%- include('partials/footer') %>

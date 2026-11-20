@@ -1,11 +1,28 @@
+
 <%- include('partials/header') %>
 
+<%
+  const codigo = typeof statusCode !== 'undefined' ? statusCode : 500;
+  const detalhe = typeof error !== 'undefined' ? error : null;
+
+  const titulo = codigo === 403
+    ? 'Acesso negado'
+    : codigo === 404
+      ? 'Página não encontrada'
+      : 'Algo deu errado';
+
+  const mensagem = detalhe?.message ||
+    'Ocorreu um erro inesperado ao processar sua solicitação.';
+%>
+
 <div class="card empty page-empty">
-  <span class="big-code">500</span>
-  <h1>Algo deu errado</h1>
-  <p>Ocorreu um erro inesperado ao processar sua solicitação.</p>
-  <pre class="error-detail"><%= error && error.message %></pre>
-  <a href="/" class="btn btn-primary" id="error-home"><%- icon('back', 16) %> Voltar ao dashboard</a>
+  <span class="big-code"><%= codigo %></span>
+  <h1><%= titulo %></h1>
+  <p><%= mensagem %></p>
+
+  <a href="/" class="btn btn-primary" id="error-home">
+    <%- icon('back', 16) %> Voltar ao dashboard
+  </a>
 </div>
 
 <%- include('partials/footer') %>
